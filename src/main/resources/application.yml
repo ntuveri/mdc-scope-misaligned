@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: mdc-span-misaligned
+  sleuth:
+    reactor:
+      instrumentation-type: decorate_queues
+    baggage:
+      correlation-fields: customId
+      remote-fields: customId
+  cloud:
+    gateway:
+      routes:
+        - uri: https://httpbin.org/get
+          predicates:
+            - Path=/**
+          filters:
+            - CustomId
+
+server:
+  port: 8080
